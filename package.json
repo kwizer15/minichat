@@ -1,0 +1,17 @@
+{
+  "name": "minichat",
+  "version": "0.0.0",
+  "description": "Internal Minichat",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KwiZeR15",
+  "license": "MIT"
+}

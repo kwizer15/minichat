@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MiniChat</title>
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>MiniChat</h4>
+      </div>
+      <div class="panel-body" id="main">
+        <form id="connect" class="form-inline">
+          <input class="form-control" type="text" id="username" placeholder="Votre nom">
+          <button class="btn btn-primary" type="submit">Connexion</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var chat = function() {
+    var username = $('#username').val();
+    $('#main').html('<div id="chat" />');
+    $('#main').parent().append('<div class="panel-footer"><form id="talk" class="form-inline"><input class="form-control" size="160" id="message" type="text"> <button class="btn btn-primary" type="submit">Envoyer</button></form></div>');
+    $('#message').focus();
+    var socket = io('http://192.168.16.10:5236');
+    socket.emit('newUser', username);
+    $('#chat').prepend('<p><em>Bienvenue sur MiniChat</em></p>');
+    $('#chat').prepend('<p><em>Bonjour, ' + username + ' !</em></p>');
+    socket.on('receiveMsg', function(data) {
+      $('#chat').prepend('<p><strong>' + data.username + '</strong> ' + data.message + '</p>');
+    });
+
+    socket.on('preventNewUser', function(data) {
+      $('#chat').prepend('<p><em><strong>' + data.username + '</strong> viens de se connecter.</em></p>');
+    });
+    $('#talk').on('submit', function(e) {
+      e.preventDefault();
+      socket.emit('sendMsg', {username: username, message: $('#message').val()});
+      $('#message').val('').focus();
+      return false;
+    });
+  };
+
+  $(function () {
+    $('#connect > input').focus();
+    $('#connect').on('submit', function(e) {
+      e.preventDefault();
+      chat();
+      return false;
+    });
+  });
+
+  </script>
+</body>
+</html>

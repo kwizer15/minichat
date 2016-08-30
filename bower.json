@@ -1,0 +1,11 @@
+{
+  "name": "minichat",
+  "authors": [
+    "Emmanuel Bernaszuk <emmanuel.bernaszuk@kw12er.com>"
+  ],
+  "license": "MIT",
+  "directory": "public.src/bower_components",
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
